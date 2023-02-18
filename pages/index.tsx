@@ -1,47 +1,47 @@
-import { AnimatePresence, motion } from "framer-motion";
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import { useState } from "react";
-import { Toaster, toast } from "react-hot-toast";
-import DropDown, { VibeType } from "../components/DropDown";
-import Footer from "../components/Footer";
-import Github from "../components/GitHub";
-import Header from "../components/Header";
-import LoadingDots from "../components/LoadingDots";
-import ResizablePanel from "../components/ResizablePanel";
+import { AnimatePresence, motion } from 'framer-motion';
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import { useState } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
+import DropDown, { VibeType } from '../components/DropDown';
+import Footer from '../components/Footer';
+import Github from '../components/GitHub';
+import Header from '../components/Header';
+import LoadingDots from '../components/LoadingDots';
+import ResizablePanel from '../components/ResizablePanel';
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
-  const [bio, setBio] = useState("");
-  const [vibe, setVibe] = useState<VibeType>("Professional");
-  const [generatedBios, setGeneratedBios] = useState<String>("");
+  const [bio, setBio] = useState('');
+  const [vibe, setVibe] = useState<VibeType>('Breakfast');
+  const [generatedBios, setGeneratedBios] = useState<String>('');
 
-  console.log("Streamed response: ", generatedBios);
+  console.log('Streamed response: ', generatedBios);
 
   const prompt =
-    vibe === "Funny"
+    vibe === 'Funny'
       ? `Generate 2 funny twitter bios with no hashtags and clearly labeled "1." and "2.". Make sure there is a joke in there and it's a little ridiculous. Make sure each generated bio is at max 20 words and base it on this context: ${bio}${
-          bio.slice(-1) === "." ? "" : "."
+          bio.slice(-1) === '.' ? '' : '.'
         }`
       : `Generate 2 ${vibe} twitter bios with no hashtags and clearly labeled "1." and "2.". Make sure each generated bio is at least 14 words and at max 20 words and base them on this context: ${bio}${
-          bio.slice(-1) === "." ? "" : "."
+          bio.slice(-1) === '.' ? '' : '.'
         }`;
 
   const generateBio = async (e: any) => {
     e.preventDefault();
-    setGeneratedBios("");
+    setGeneratedBios('');
     setLoading(true);
-    const response = await fetch("/api/generate", {
-      method: "POST",
+    const response = await fetch('/api/generate', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         prompt,
       }),
     });
-    console.log("Edge function returned.");
+    console.log('Edge function returned.');
 
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -99,7 +99,7 @@ const Home: NextPage = () => {
               className="mb-5 sm:mb-0"
             />
             <p className="text-left font-medium">
-              Copy your current bio{" "}
+              Copy your current bio{' '}
               <span className="text-slate-500">
                 (or write a few sentences about yourself)
               </span>
@@ -112,7 +112,7 @@ const Home: NextPage = () => {
             rows={4}
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
             placeholder={
-              "e.g. Senior Developer Advocate @vercel. Tweeting about web development, AI, and React / Next.js. Writing nutlope.substack.com."
+              'e.g. Senior Developer Advocate @vercel. Tweeting about web development, AI, and React / Next.js. Writing nutlope.substack.com.'
             }
           />
           <div className="flex mb-5 items-center space-x-3">
@@ -158,16 +158,16 @@ const Home: NextPage = () => {
                   </div>
                   <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
                     {generatedBios
-                      .substring(generatedBios.indexOf("1") + 3)
-                      .split("2.")
+                      .substring(generatedBios.indexOf('1') + 3)
+                      .split('2.')
                       .map((generatedBio) => {
                         return (
                           <div
                             className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border"
                             onClick={() => {
                               navigator.clipboard.writeText(generatedBio);
-                              toast("Bio copied to clipboard", {
-                                icon: "✂️",
+                              toast('Bio copied to clipboard', {
+                                icon: '✂️',
                               });
                             }}
                             key={generatedBio}
