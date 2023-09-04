@@ -10,21 +10,30 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-export type DietType = "Gluten-Free" | "High-protein" | "Low-fat" | "None";
+export type CalType =
+    | "Less than 500"
+    | "500-1200"
+    | "More than 1200"
+    | "Don't care";
 
-interface DropDownProps {
-    diet: DietType;
-    setDiet: (diet: DietType) => void;
+interface DropDownCalProps {
+    cal: CalType;
+    setCal: (cal: CalType) => void;
 }
 
-let diets: DietType[] = ["Gluten-Free", "High-protein", "Low-fat", "None"];
+let cals: CalType[] = [
+    "Less than 500",
+    "500-1200",
+    "More than 1200",
+    "Don't care",
+];
 
-export default function DropDown({ diet, setDiet }: DropDownProps) {
+export default function DropDownCal({ cal, setCal }: DropDownCalProps) {
     return (
         <Menu as="div" className="relative block text-left w-full">
             <div>
                 <Menu.Button className="inline-flex w-full justify-between items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black">
-                    {diet}
+                    {cal}
                     <ChevronUpIcon
                         className="-mr-1 ml-2 h-5 w-5 ui-open:hidden"
                         aria-hidden="true"
@@ -47,26 +56,26 @@ export default function DropDown({ diet, setDiet }: DropDownProps) {
             >
                 <Menu.Items
                     className="absolute left-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    key={diet}
+                    key={cal}
                 >
                     <div className="">
-                        {diets.map((dietItem) => (
-                            <Menu.Item key={dietItem}>
+                        {cals.map((calItem) => (
+                            <Menu.Item key={calItem}>
                                 {({ active }) => (
                                     <button
-                                        onClick={() => setDiet(dietItem)}
+                                        onClick={() => setCal(calItem)}
                                         className={classNames(
                                             active
                                                 ? "bg-gray-100 text-gray-900"
                                                 : "text-gray-700",
-                                            diet === dietItem
+                                            cal === calItem
                                                 ? "bg-gray-200"
                                                 : "",
                                             "px-4 py-2 text-sm w-full text-left flex items-center space-x-2 justify-between"
                                         )}
                                     >
-                                        <span>{dietItem}</span>
-                                        {diet === dietItem ? (
+                                        <span>{calItem}</span>
+                                        {cal === calItem ? (
                                             <CheckIcon className="w-4 h-4 text-bold" />
                                         ) : null}
                                     </button>
