@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai-edge';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { NextResponse } from 'next/server';
-import { OpenAI } from 'openai';
+// import { OpenAI } from 'openai';
 
 // Create an OpenAI API client (that's edge friendly!)
 const config = new Configuration({
@@ -32,18 +32,17 @@ export async function POST(req: Request) {
         },
       ],
     });
-    console.log(response);
     // Convert the response into a friendly text-stream
     const stream = OpenAIStream(response);
     // Respond with the stream
     return new StreamingTextResponse(stream);
   } catch (error) {
     // Check if the error is an APIError
-    if (error instanceof OpenAI.APIError) {
-      const { name, status, headers, message } = error;
-      return NextResponse.json({ name, status, headers, message }, { status });
-    } else {
-      throw error;
-    }
+    // if (error instanceof OpenAI.APIError) {
+    //   const { name, status, headers, message } = error;
+    //   return NextResponse.json({ name, status, headers, message }, { status });
+    // } else {
+    //   throw error;
+    // }
   }
 }
